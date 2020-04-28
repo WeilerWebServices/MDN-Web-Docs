@@ -1,0 +1,16 @@
+*.swp
+*.swo
+tmp
+logs
+docs
+.monitor
+.nodemonignore
+*.node
+*.dSYM
+*.o
+*.a
+*.dylib
+*.un~
+node_modules/
+*.log
+*~

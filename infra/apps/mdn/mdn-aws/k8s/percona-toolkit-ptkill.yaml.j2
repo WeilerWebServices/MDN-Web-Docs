@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: percona-toolkit-ptkill
+  namespace: {{ PERCONA_TOOLKIT_NS }}
+  labels:
+    app: percona-toolkit-ptkill
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: percona-toolkit-ptkill
+  template:
+    metadata:
+      labels:
+        app: percona-toolkit-ptkill
+    spec:
+      containers:
+      - name: percona-toolkit-ptkill
+        image: {{ PERCONA_TOOLKIT_IMAGE }}
+        env:
+          - name: PTDEBUG
+            value: "0"
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: percona-toolkit-ptkill-secrets
+                key: db_host
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: percona-toolkit-ptkill-secrets
+                key: db_name
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: percona-toolkit-ptkill-secrets
+                key: db_user
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: percona-toolkit-ptkill-secrets
+                key: db_pass
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      restartPolicy: Always

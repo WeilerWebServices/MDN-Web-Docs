@@ -1,0 +1,54 @@
+{
+  "name": "stumptown-renderer",
+  "version": "0.0.0",
+  "description": "Meta package applicable to all packages",
+  "repository": "https://github.com/mdn/stumptown-renderer",
+  "author": "MDN Web Docs",
+  "license": "MPL-2.0",
+  "scripts": {
+    "#postinstall": "cd stumptown && npm install && git checkout package-lock.json",
+    "prettier-check": "prettier --check '**/*.{js,json,scss,html}'",
+    "prettier-format": "prettier --write '**/*.{js,json,scss,html}'",
+    "test": "yarn prettier-check && yarn workspace ssr test && yarn workspace client test",
+    "build:stumptown": "cd ${STUMPTOWN_CONTENT_ROOT:-stumptown} && npm run build-json",
+    "build:client": "yarn workspace client build",
+    "build:ssr": "yarn workspace ssr build",
+    "clean": "rm -fr client/build && rm -fr ssr/dist && rm -fr content/_all-titles.json",
+    "prebuild": "yarn build:ssr && yarn build:client && node content build --ensure-titles",
+    "start": "yarn run prebuild && nf start"
+  },
+  "private": true,
+  "workspaces": [
+    "client",
+    "server",
+    "ssr",
+    "content"
+  ],
+  "devDependencies": {
+    "foreman": "3.0.1",
+    "husky": "4.2.5",
+    "prettier": "2.0.5",
+    "pretty-quick": "2.0.1"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.2"
+  },
+  "resolutions": {
+    "braces": ">=2.3.1",
+    "fstream": ">=1.0.12",
+    "js-yaml": ">=3.13.1",
+    "lodash": ">=4.17.15",
+    "mixin-deep": ">=1.3.2",
+    "set-value": ">=2.0.1",
+    "tar": ">=4.4.9",
+    "handlebars": ">=4.5.3"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && yarn install --ignore-scripts"
+    }
+  }
+}

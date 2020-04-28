@@ -1,0 +1,17 @@
+// revert the Protocol styling reset
+.rich-text {
+  clear: both;
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    margin-left: 1.5em;
+    padding-left: 4px;
+  }
+}

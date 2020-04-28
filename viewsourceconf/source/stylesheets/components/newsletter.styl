@@ -1,0 +1,75 @@
+@require '../includes/variables';
+@require '../includes/extends';
+@require '../utilities/invisible';
+
+/* classes don't match naming schem for other files because
+I didn't want to alter the javascript that relies on them */
+
+.newsletter_icon {
+    height: 37px;
+    width: 56px;
+    margin-top: -4px;
+    stroke: $default-secondary;
+}
+
+.newsletter_errors {
+    display: none; /* hide by default */
+    margin-bottom: $grid-gutter-width;
+    box-shadow: 0 0 0 1px #ffffff; // incase it's on a black background
+    padding: $grid-gutter-width;
+    background-color: rgba(0, 0, 0, 0.1); // incase it's on a white background
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+}
+
+.newsletter_promise {
+    display: block;
+    set-font-size(14px);
+}
+
+.newsletter_thanks {
+    display: none;
+}
+
+.newsletter-inline {
+    #newsletter_email label {
+        @extend .invisible;
+    }
+
+    input[type=email],
+    .button {
+        width: 100%;
+    }
+}
+
+/* hide the newsletter selection */
+#newsletter_options {
+    display: none;
+}
+
+.js-site .js-collapse {
+    #newsletter_privacy,
+    .newsletter_promise {
+        display: none;
+    }
+}
+
+@media $media-query-680-and-up {
+    .newsletter:not(.newsletter-inline) {
+        min-height: 50vh;
+    }
+}
+
+@media $media-query-tall {
+    .newsletter:not(.newsletter-inline) {
+        min-height: 45vh;
+    }
+}
+
+@media print {
+    #newsletter {
+        @extends $print-no;
+    }
+}

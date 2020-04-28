@@ -1,0 +1,45 @@
+{
+  "name": "mdn-fiori",
+  "version": "0.1.0",
+  "description": "MDN Web Docs Style Guide",
+  "scripts": {
+    "build": "npx @11ty/eleventy --pathprefix=mdn-fiori --input=styleguide --output=docs",
+    "build:sass": "node-sass-chokidar ./node_modules/mdn-minimalist/sass/ -o ./styleguide/css -w",
+    "build:sass:styleguide": "node-sass-chokidar ./styleguide/sass/ -o ./styleguide/css/styleguide -w",
+    "build:sass:prod": "node-sass-chokidar ./node_modules/mdn-minimalist/sass/ -o ./styleguide/css",
+    "build:sass:styleguide:prod": "node-sass-chokidar ./styleguide/sass/ -o ./styleguide/css/styleguide",
+    "build:production": "run-s copy:typography build:sass:prod build:sass:styleguide:prod build",
+    "copy:typography": "cp -R ./node_modules/mdn-minimalist/typography/ ./styleguide/typography/",
+    "serve": "npx @11ty/eleventy  --input=styleguide --output=docs --serve",
+    "start": "run-p copy:typography build:sass build:sass:styleguide serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mdn/mdn-fiori.git"
+  },
+  "author": "Mozilla",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/mdn/mdn-fiori/issues"
+  },
+  "homepage": "https://github.com/mdn/mdn-fiori/#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.10.0",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.1",
+    "cz-conventional-changelog": "3.1.0",
+    "husky": "^4.2.5",
+    "mdn-minimalist": "^0.0.18",
+    "node-sass-chokidar": "^1.4.0",
+    "npm-run-all": "^4.1.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  }
+}

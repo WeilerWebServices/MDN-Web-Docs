@@ -1,0 +1,7 @@
+dist
+*.scss
+*.py
+*.pyc
+*.html
+*.svg
+renovate.json

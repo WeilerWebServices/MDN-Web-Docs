@@ -1,0 +1,22 @@
+<h1>Browsers</h1>
+
+<ul>
+{{#each model as |browser|}}
+  <li>
+  {{#link-to 'browsers.browser.versions' browser}}
+    {{browser.name.en}}
+  {{/link-to}}
+  </li>
+{{/each}}
+</ul>
+
+
+{{#if session.isAuthenticated}}
+
+<h1>New Browser</h1>
+
+{{browsers/browser-form
+  browser=model
+  saveBrowser=(action "addBrowser" model)}}
+
+{{/if}}

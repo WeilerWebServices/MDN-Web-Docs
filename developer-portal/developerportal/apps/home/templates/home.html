@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% load app_filters %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}home{% endblock %}
+
+{% block content %}
+  <main>
+    {% if page.show_header %}
+      {% include "organisms/homepage-header.html" %}
+    {% endif %}
+    {% if page.external_promos %}
+    <section class="section">
+      <div class="container">
+        <div class="card-container card-container-2-wide">
+          {% for promo in page.external_promos|by_key:"value" %}
+            {% include "molecules/external-promo.html" with resource=promo %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+    {% with page.featured|published as featured %}
+      {% if featured %}
+        <section id="featured" class="section">
+          <div class="container">
+            {% include "organisms/featured.html" with featured=featured %}
+          </div>
+        </section>
+      {% endif %}
+    {% endwith %}
+    {% if page.primary_topics.all %}
+      <section id="topics" class="section">
+        {% include "organisms/topic-links.html" with topics=page.primary_topics.all pagetheme='home' %}
+      </section>
+    {% endif %}
+    {% if page.featured_people %}
+      <section id="latest-authors" class="section">
+        {% include "organisms/people-section.html" with people=page.featured_people|by_key:"value" show_link=True %}
+      </section>
+    {% endif %}
+    {% if page.about_title %}
+      <section id="about" class="section section-background section-background-gray">
+        {% include "organisms/homepage-about.html" with title=page.about_title subtitle=page.about_subtitle button_url=page.about_button_url button_text=page.about_button_text %}
+      </section>
+    {% endif %}
+    {% include "organisms/newsletter-signup.html" %}
+  </main>
+{% endblock content %}

@@ -1,0 +1,20 @@
+{
+  "name": "BrowserDemo",
+  "description": "Browser app demo for MDN Browser API documentation; this is just a test!",
+  "launch_path": "/index.html",
+  "type": "privileged",
+  "icons": {
+    "512": "/img/firefox512.png",
+    "128": "/img/firefox128.png"
+  },
+  "developer": {
+    "name": "Chris Mills",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/API/Browser_API"
+  },
+  "default_locale": "en",
+  "permissions": {
+    "browser": {
+      "description" : "Allows an iframe element to be turned into an embedded web browser"
+    }
+  }
+}

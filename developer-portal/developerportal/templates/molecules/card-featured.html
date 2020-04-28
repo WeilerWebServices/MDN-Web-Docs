@@ -1,0 +1,27 @@
+{% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% image resource.image width-480 as image %}
+{% image resource.card_image width-480 as card_image %}
+{% if block_type == "video" %}
+  {% static "img/placeholders/video.jpg" as fallback_image_url %}
+{% elif block_type == "event" %}
+  {% static "img/placeholders/event.jpg" as fallback_image_url %}
+{% else %}
+  {% static "img/placeholders/article.jpg" as fallback_image_url %}
+{% endif %}
+
+{% if external_page %}
+<a href="{{ resource.url }}" class="card-link" data-type="external_page" target="_blank" rel="nofollow noopener">
+{% else %}
+<a href="{% pageurl resource %}" class="card-link" data-type="{{ resource.resource_type }}">
+{% endif %}
+  <div class="card-featured">
+    <div class="card-featured-image" style="background-image: url('{% firstof card_image.url image.url fallback_image_url %}')"></div>
+    <div class="card-featured-caption">
+      <h5 class="no-underline">
+        {% firstof resource.card_title resource.title %}{% if external_page or resource.is_external %}<span class="no-wrap">&#65279;<span class="icon icon-external">{% include "atoms/icons/external.svg" %}</span></span>{% endif %}
+      </h5>
+    </div>
+  </div>
+</a>

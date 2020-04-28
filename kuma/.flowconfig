@@ -1,0 +1,13 @@
+[ignore]
+<PROJECT_ROOT>/kumascript/.*
+
+[include]
+
+[libs]
+kuma/javascript/src/flow-typed
+
+[lints]
+
+[options]
+
+[strict]

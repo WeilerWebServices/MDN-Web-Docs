@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load app_filters %}
+
+{% block body_class %}topics{% endblock %}
+
+{% block content %}
+  <main>
+    {% with page.topics.public.live.specific as topics %}
+      {% if topics %}
+        <section class="section">
+          {% include "organisms/topic-links.html" with topics=topics pagetheme='directory' %}
+        </section>
+      {% endif %}
+    {% endwith %}
+  </main>
+{% endblock content %}

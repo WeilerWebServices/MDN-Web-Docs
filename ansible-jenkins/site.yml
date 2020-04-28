@@ -1,0 +1,30 @@
+---
+- hosts: jenkins
+  connection: local
+  become: True
+
+  vars_files:
+    #- 'local_settings.yml'
+    - './vars/users.yaml'
+
+  roles:
+    - role: apt
+      tags: apt
+    - role: packages
+      tags: packages
+    - role: users
+      tags: users
+    - role: docker
+      tags: docker
+    - role: jenkins
+      tags: jenkins
+    - role: kubernetes
+      tags: kubernetes
+    - role: nginx
+      tags: nginx
+    - role: mail
+      tags: mail
+    - role: papertrail
+      tags: papertrail
+    - role: datadog
+      tags: datadog

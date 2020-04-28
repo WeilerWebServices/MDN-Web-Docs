@@ -1,0 +1,46 @@
+@require '../includes/variables';
+@require '../includes/extends';
+/*
+footer
+====================================================================== */
+
+.footer_body {
+    padding: $grid-gutter-width 0;
+    font-family: $heading-font-family;
+    text-align: center;
+    text-transform: uppercase;
+
+    li { // need increased specificity
+        a:not(.button) {
+            text-decoration: none;
+        }
+
+        a:not(.button):hover,
+        a:not(.button):focus,
+        a:not(.button):active {
+            text-decoration: underline;
+        }
+    }
+
+}
+
+.footer_links,
+.footer_social {
+    margin: 0;
+    list-style-type: none;
+
+    > li {
+        display: inline-block;
+        padding: 0 ($grid-gutter-width / 2);
+    }
+}
+
+li.footer_newsletter {
+    display: block;
+}
+
+@media print {
+    .footer_links {
+        @extends $print-no;
+    }
+}

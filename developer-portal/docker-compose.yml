@@ -1,0 +1,99 @@
+version: '3.4'
+
+x-common: &common
+  build:
+    context: .
+    target: app_base
+  env_file: .env
+  tty: true
+  volumes:
+    - dist:/app/dist
+    - ./developerportal:/app/developerportal
+    - ./media:/app/media
+    - ./src:/app/src
+
+services:
+  db:
+    env_file: .env
+    expose:
+      - 5432
+    image: postgres:11.3-alpine
+    tty: true
+    volumes:
+      - database:/var/lib/postgresql/data
+
+  redis:
+    env_file: .env
+    expose:
+      - 6379
+    image: redis:5.0.6-alpine
+    tty: true
+
+  app:
+    <<: *common
+    command: gunicorn developerportal.wsgi:application --reload --config configs/gunicorn.py
+    ports:
+      - '8000:8000'
+      # 8000 is left exposed if you want to access it not over SSL,
+      # else use nginx on developer-portal-127-0-0-1.nip.io
+    user: ${UID:-1000}
+    volumes: # needs more than the base definition
+      - dist:/app/dist
+      - ./developerportal:/app/developerportal
+      - ./media:/app/media
+      - ./src:/app/src
+    depends_on:
+      - db
+      - redis
+
+  worker:
+    <<: *common
+    command: celery -A developerportal.apps.taskqueue worker -l info
+    user: ${UID:-1000}
+    depends_on:
+      - app
+
+  scheduler:
+    <<: *common
+    command: celery -A developerportal.apps.taskqueue beat -l debug
+    user: ${UID:-1000}
+    depends_on:
+      - app
+      - worker
+
+  # For local development, generates a self sign cert
+  # to run: docker-compose run cfssl
+  cfssl:
+    image: cfssl/cfssl
+    working_dir: /ssl
+    user: '${UID:-1000}:${GID:-1000}'
+    volumes:
+      - ./etc/nginx/ssl:/ssl
+    entrypoint: ./gen-cert.sh
+
+  # NOTE: Used to have port 80 but its being used by our jenkins
+  # instance
+  nginx:
+    image: nginx
+    volumes:
+      - ./etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./etc/nginx/ssl:/etc/nginx/ssl
+    ports:
+      - '443:443'
+    depends_on:
+      - cfssl
+      - app
+
+  static:
+    build:
+      context: .
+      target: static
+    command: npm run watch
+    tty: true
+    volumes:
+      - dist:/app/dist
+      - ./src:/app/src
+
+volumes:
+  database:
+  dist:

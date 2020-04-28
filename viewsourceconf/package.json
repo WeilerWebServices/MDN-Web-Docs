@@ -1,0 +1,42 @@
+{
+  "name": "viewsourceconf-build",
+  "version": "2016.0.1",
+  "scripts": {
+    "build": "node build",
+    "build_dev": "node build dev"
+  },
+  "devDependencies": {
+    "broken-link-checker": "^0.7.0",
+    "debug": "^2.2.0",
+    "eslint": "^2.7.0",
+    "eslint-config-airbnb": "^6.2.0",
+    "eslint-plugin-react": "^4.3.0",
+    "js-yaml": "^3.6.1",
+    "metalsmith": "^2.1.0",
+    "metalsmith-branch": "0.0.4",
+    "metalsmith-collections": "^0.7.0",
+    "metalsmith-data-markdown": "0.0.3",
+    "metalsmith-debug": "0.0.2",
+    "metalsmith-define": "^2.0.1",
+    "metalsmith-filenames": "^1.0.0",
+    "metalsmith-fingerprint-ignore": "^1.1.2",
+    "metalsmith-html-minifier": "^2.0.0",
+    "metalsmith-ignore": "^0.1.2",
+    "metalsmith-in-place": "^1.4.3",
+    "metalsmith-json-to-files": "git+https://github.com/hoosteeno/metalsmith-json-to-files.git#7ac8d1ba836ae3b538e3e2792553cb797253f7d6",
+    "metalsmith-layouts": "^1.6.4",
+    "metalsmith-markdown": "^0.2.1",
+    "metalsmith-metadata": "0.0.4",
+    "metalsmith-models": "0.0.1",
+    "metalsmith-permalinks": "^0.5.0",
+    "metalsmith-serve": "0.0.7",
+    "metalsmith-stylus": "^2.0.0",
+    "metalsmith-uglify": "^1.2.1",
+    "metalsmith-watch": "^1.0.1",
+    "mocha": "^2.4.5",
+    "selenium-webdriver": "^2.53.3",
+    "stylus": "^0.54.2",
+    "swig": "^1.4.2"
+  },
+  "private": true
+}

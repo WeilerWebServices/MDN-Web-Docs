@@ -1,0 +1,7 @@
+{% include 'kuma.base.deploy.yaml.j2' %}
+          command:
+            - celery
+          args:
+            - "--app=kuma.celery:app"
+            - "beat"
+            - "--loglevel=INFO"

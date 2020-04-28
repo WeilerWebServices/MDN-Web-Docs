@@ -1,0 +1,42 @@
+{
+  "name": "mdn-short-descriptions",
+  "version": "0.1.0",
+  "description": "Short descriptions of web technologies from MDN Web Docs",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "extend": "^3.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "jsdom": "^12.2.0",
+    "mdn-data": "^2.0.0",
+    "request": "^2.88.0"
+  },
+  "scripts": {
+    "test": "node test/test.js && npm run lint-js && node test/json-format-rules.js && node test/content-rules.js && npm run lint-json",
+    "lint-js": "eslint test/*.js scripts/*.js",
+    "lint-json": "node test/lint-json.js",
+    "lint-wiki": "node test/lint-wiki.js",
+    "scrape": "node scripts/scrape.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdn/short-descriptions.git"
+  },
+  "keywords": [
+    "mozilla",
+    "mdn",
+    "data"
+  ],
+  "author": "MDN Web Docs",
+  "license": "CC-BY-SA-2.5",
+  "bugs": {
+    "url": "https://github.com/mdn/short-descriptions/issues"
+  },
+  "homepage": "https://github.com/mdn/short-descriptions#readme"
+}

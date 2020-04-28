@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-US" class="js-no">
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>View Source {% block title %} &#8226; {% endblock %}</title>
+        {% include "includes/easteregg.html" %}
+
+        <link rel="stylesheet" href="/{{ fingerprint['stylesheets/style.css'] }}">
+{% include "includes/meta.html" %}
+{% include "includes/js.html" %}
+{% include "includes/analytics.html" %}
+    </head>
+    <body class="{{ conference_data.slug }}">
+
+    {% include "includes/header.html" %}
+
+    {% block body %}
+        {{ contents | safe }}
+    {% endblock %}
+
+    {% include "includes/footer.html" %}
+
+    <script>
+        (function(v,i,e,w) {
+            'use strict';
+
+            // let's see if this browser can handle our scripts
+            // https://sixtwothree.org/posts/cutting-the-mustard-revisited
+            // IE 11 and up
+            if ('devicePixelRatio' in v) {
+                // load site script
+                v.vs = {};
+
+                (function(){
+                    var s = i.createElement(e);
+                    s.async = true;
+                    s.src = w;
+                    var r = i.getElementsByTagName(e)[0];
+                    r.parentNode.insertBefore(s, r);
+                })();
+
+            } else {
+                // or not
+                var c = i.documentElement;
+                c.className = 'js-yes js-siteno';
+            }
+
+        })(window, document, 'script', '/{{ fingerprint['js/main.js'] }}');
+
+    </script>
+
+    </body>
+</html>

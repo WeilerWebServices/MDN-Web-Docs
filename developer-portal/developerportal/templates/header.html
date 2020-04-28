@@ -1,0 +1,75 @@
+{% load app_tags %}
+{% load wagtailcore_tags %}
+
+{% with home_page=request.site.root_page %}
+  <header class="header">
+    <div class="mzp-c-navigation">
+      <div class="mzp-c-navigation-l-content">
+        <div class="mzp-c-navigation-container">
+          <button class="mzp-c-navigation-menu-button" type="button" aria-controls="patterns.organisms.navigation.navigation">Menu</button>
+          <div class="mzp-c-navigation-logo">
+            <a href="/">
+              <span class="logo"></span>
+              <span class="logo-prefix">Mozilla</span><span class="heading5 logo-text">Developer</span>
+            </a>
+          </div>
+          <div class="mzp-c-navigation-items" id="patterns.organisms.navigation.navigation">
+            <div class="mzp-c-navigation-menu">
+              <nav class="mzp-c-menu mzp-is-basic">
+                <ul class="mzp-c-menu-category-list">
+                  {% for page in home_page.get_children.public.live.in_menu %}
+                    {% with child_pages=page.get_children.public.live.in_menu %}
+                      <li class="mzp-c-menu-category{% if child_pages %} mzp-has-drop-down mzp-js-expandable{% endif %}">
+                        {% if child_pages %}
+                        <span class="mzp-c-menu-title" aria-haspopup="true" aria-controls="mzp-c-menu-panel-{{ page.slug }}">{{ page.title }}</span>
+                        {% else %}
+                        <a class="mzp-c-menu-title" href="{{ page.url }}">
+                          {{ page.title }}
+                        </a>
+                        {% endif %}
+                        {% if child_pages %}
+                          <div class="mzp-c-menu-panel mzp-has-card" id="mzp-c-menu-panel-{{ page.slug }}">
+                            <div class="mzp-c-menu-panel-container">
+                              <button class="mzp-c-menu-button-close" type="button" aria-controls="mzp-c-menu-panel-{{ page.slug }}">
+                                Close {{ page.title }} menu
+                              </button>
+                              <div class="mzp-c-menu-panel-content">
+                                <ul>
+                                  {% for page in child_pages.public.live.in_menu.specific %}
+                                    <li>
+                                      <section class="mzp-c-menu-item">
+                                        <a class="mzp-c-menu-item-link" href="{{ page.url }}">
+                                          <p class="mzp-c-menu-item-title">{{ page.title }}</p>
+                                        </a>
+                                      </section>
+                                    </li>
+                                  {% endfor %}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        {% endif %}
+                      </li>
+                    {% endwith %}
+                  {% endfor %}
+                  <li class="mzp-c-menu-category">
+                    <a class="mzp-c-menu-title" href="https://developer.mozilla.org/" rel="nofollow noopener" target="_blank">
+                      <img src="/static/img/icons/social/mozilla/black.svg" alt="" width="16" height="16" />
+                      MDN Web Docs
+                    </a>
+                  </li>
+                  <li class="mzp-c-menu-category">
+                    <a class="mzp-c-menu-title" href="https://www.mozilla.org/firefox/developer/" rel="nofollow noopener" target="_blank">
+                      <img src="/static/img/icons/social/firefox/black.svg" alt="" width="16" height="16" />
+                      Firefox
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endwith %}

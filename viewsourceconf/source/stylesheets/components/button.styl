@@ -1,0 +1,89 @@
+@require '../includes/variables';
+
+/*
+button
+====================================================================== */
+
+.button {
+    display: inline-block;
+    box-sizing: border-box;
+    min-width: $input-min-width;
+    border: $input-border-width solid transparent;
+    padding: $input-v-padding $input-h-padding;
+    border-color: $default-secondary;
+    background: transparent;
+    color: $default-secondary;
+    font-size: inherit;
+    line-height: 1; // to match elements/forms.styl
+    text-align: center;
+    text-decoration: none;
+    text-shadow: none; /* over-ride text shadow in .hero */
+    transition: all $transition-duration $transition-timing;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: $default-background;
+    }
+
+    &::after{
+        content: '\A\BB';
+    }
+
+    .split & {
+        font-weight: bold;
+    }
+}
+
+.button-invert {
+
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+        border-color: transparent;
+        background-color: $default-secondary;
+        color: $default-background;
+    }
+}
+
+.button-bright {
+
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+        border-color: transparent;
+        background-color: $default-background;
+        color: $default-dark;
+    }
+}
+
+.button-white {
+
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+        border-color: transparent !important;
+        background-color: #fff !important;
+        color: #000 !important;
+    }
+}
+
+.button-expand {
+    position: relative;
+    padding-right: 3rem;
+
+    &::after {
+        content: '\A+';
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        margin-top: -1rem;
+        set-font-size(28px);
+    }
+    &[aria-expanded=true]::after {
+        content: '\A-';
+    }
+}

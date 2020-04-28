@@ -1,0 +1,32 @@
+.resource-toolbar {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+
+  .resource-share {
+    margin-top: 24px;
+  }
+
+  @media screen and (min-width: 600px) {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .resource-share {
+      margin-top: 0;
+    }
+  }
+}
+
+.resource-toolbar-bottom {
+  align-items: flex-start;
+  margin-top: 24px;
+
+  @media #{$mq-md} {
+    margin-top: 48px;
+  }
+
+  .resource-share {
+    margin-top: 0;
+  }
+}

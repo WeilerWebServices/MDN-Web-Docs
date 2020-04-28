@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "dockerfile": {
+    "pinDigests": true
+  },
+  "docker-compose": {
+    "enabled": false
+  },
+  "labels": ["renovate"],
+  "masterIssue": true,
+  "rangeStrategy": "pin",
+  "rebaseStalePrs": true
+}

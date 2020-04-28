@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dropdown closed and open snapshots 1`] = `
+<div
+  className="dropdown-container"
+>
+  <button
+    aria-haspopup="true"
+    className="dropdown-menu-label"
+    onFocus={[Function]}
+    onMouseOver={[Function]}
+    type="button"
+  >
+    Test
+    <span
+      aria-hidden="true"
+      className="dropdown-arrow-down"
+    >
+      ▼
+    </span>
+  </button>
+  <ul
+    className="dropdown-menu-items"
+    role="menu"
+  >
+    <li>
+      foo
+    </li>
+    <li>
+      bar
+    </li>
+  </ul>
+</div>
+`;

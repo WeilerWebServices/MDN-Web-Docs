@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block body_class %}person{% endblock %}
+
+{% block header %}
+  {{ block.super }}
+  {% include "utils/accent-color.html" with color='#ffd567' %}
+{% endblock %}
+
+{% block content %}
+  <main>
+    {% include "organisms/pattern-bg-header.html" with title=page.display_title description=page.get_role_display type=page.resource_type role=page.role %}
+    <section class="section">
+      <div class="container">
+        {% include "organisms/person-overview.html" with resource=page %}
+      </div>
+    </section>
+    {% if page.articles %}
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Latest posts</h2>
+        </div>
+        {% include "organisms/latest-cards.html" with cards=page.articles show_author=True%}
+      </div>
+    </section>
+    {% endif %}
+    {% if page.videos %}
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Latest videos</h2>
+        </div>
+        {% include "organisms/latest-cards.html" with cards=page.videos %}
+      </div>
+    </section>
+    {% endif %}
+    {% if page.events %}
+      {% include "organisms/upcoming-events.html" with events=page.events %}
+    {% endif %}
+    {% if page.topics.all %}
+      <section class="section">
+        {% include "organisms/topic-links.html" with topics=page.topics.all pagetheme="person" %}
+      </section>
+    {% endif %}
+    {% include "organisms/newsletter-signup.html" %}
+  </main>
+{% endblock content %}

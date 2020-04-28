@@ -1,0 +1,20 @@
+.newsletter-signup {
+  background: top center no-repeat url('../img/newsletter-background.svg')
+    $color-black;
+  color: $color-white;
+  padding: 140px 0 10px;
+  text-align: center;
+
+  .container {
+    @media #{$mq-md} {
+      max-width: 420px;
+    }
+  }
+
+  a.newsletter-signup-link-button {
+    margin-bottom: 0px;
+    @media #{$mq-md} {
+      margin-bottom: 50px;
+    }
+  }
+}

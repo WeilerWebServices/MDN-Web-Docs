@@ -1,0 +1,21 @@
+{% load wagtailcore_tags %}
+
+<section class="section section-background section-background-gray section-upcoming-events">
+  <div class="container">
+    <div class="section-header">
+      <h2>Upcoming events</h2>
+      {% if directory_pages.events and topic %}
+        <a href="{% pageurl directory_pages.events %}?topic={{ topic }}">See more</a>
+      {% endif %}
+    </div>
+    <div>
+    {% for event in events|slice:":3" %}
+      {% if forloop.counter == 1 %}
+        {% include "molecules/cards/card.html" with resource=event featured=True %}
+      {% else %}
+        {% include "molecules/cards/card.html" with resource=event %}
+      {% endif %}
+    {% endfor %}
+    </div>
+  </div>
+</section>

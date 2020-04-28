@@ -1,0 +1,6 @@
+dist
+*.py
+*.pyc
+*.html
+*.svg
+*.json

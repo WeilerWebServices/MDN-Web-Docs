@@ -1,0 +1,43 @@
+# Numerous always-ignore extensions
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.vi
+*~
+*.sass-cache
+*.lock
+*-lock.json
+
+# OS or Editor folders
+.DS_Store
+Thumbs.db
+.cache
+.project
+.settings
+.tmproj
+*.esproj
+.netbeans.xml
+nbproject
+*.sublime-project
+*.sublime-workspace
+node_modules
+composer
+codeception.yml
+
+# Folders to ignore
+.hg
+.svn
+.CVS
+intermediate
+.idea
+cache
+vendor
+/public/includes/lib/
+/admin/includes/lib/
+/includes/lib/
+/composer/
+

@@ -1,0 +1,43 @@
+<%
+// 注: 如果要添加章节到这个目录中，
+// 请将它们的链接相应地添加到 https://developer.mozilla.org/zh-CN/docs/Template:JSGChapters
+
+var chapterList = string.deserialize(template("JSGChapters"));
+var cLen = chapterList.length;
+var expTOC = "";
+var link1 = "";
+var i;
+%>
+<h2>目录</h2>
+<ol>
+<%
+
+switch (env.locale) {
+    case "ja":
+        for (i = 0; i < cLen; ++i) {
+            chapterList[i] = chapterList[i].replace(/en-US/, "ja");
+        }
+        break;
+    case "de":
+        for (i = 0; i < cLen; ++i) {
+            chapterList[i] = chapterList[i].replace(/en-US/, "de");
+        }
+        break;
+    default: break;
+}
+
+for (i = 0; i < cLen; ++i) {
+    var path = chapterList[i];
+    var link1 = web.link(path, wiki.getPage(path).title);
+
+    %><li><%- link1 %></li><%
+    // TODO: bug 769516, need support for wiki.toc()
+    // expTOC += "<h3>" + link1 + "</h3>" + wiki.toc(path);
+}
+%>
+</ol>
+<% if (expTOC) { %>
+<% /* TODO: bug 769516, need support for wiki.toc() */ %>
+<h2>Expanded Table of Contents</h2>
+<%- expTOC %>
+<% } %>

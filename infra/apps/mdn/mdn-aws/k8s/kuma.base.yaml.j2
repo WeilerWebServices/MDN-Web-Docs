@@ -1,0 +1,225 @@
+      volumes:
+        - name: kuma-fs
+          persistentVolumeClaim:
+            claimName: {{ SHARED_PVC_NAME }}
+      containers:
+        - name: {{ KUMA_NAME }}
+          image: {{ KUMA_IMAGE }}:{{ KUMA_IMAGE_TAG }}
+          imagePullPolicy: {{ KUMA_IMAGE_PULL_POLICY }}
+          volumeMounts:
+            - name: kuma-fs
+              mountPath: {{ KUMA_MOUNT_PATH }}
+          resources:
+            requests:
+              cpu: {{ KUMA_CPU_REQUEST }}
+              memory: {{ KUMA_MEMORY_REQUEST }}
+            limits:
+              cpu: {{ KUMA_CPU_LIMIT }}
+              memory: {{ KUMA_MEMORY_LIMIT }}
+          env:
+            # Django settings overrides:
+            - name: ACCOUNT_DEFAULT_HTTP_PROTOCOL
+              value: {{ KUMA_ACCOUNT_DEFAULT_HTTP_PROTOCOL }}
+            - name: ADMIN_NAMES
+              value: "{{ KUMA_ADMIN_NAMES }}"
+            - name: ADMIN_EMAILS
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: admin-emails
+            - name: ALLOW_ROBOTS
+              value: "{{ KUMA_ALLOW_ROBOTS }}"
+            - name: ALLOWED_HOSTS
+              value: "{{ KUMA_ALLOWED_HOSTS }}"
+            - name: ATTACHMENT_HOST
+              value: {{ KUMA_ATTACHMENT_HOST }}
+            - name: ATTACHMENT_ORIGIN
+              value: {{ KUMA_ATTACHMENT_ORIGIN | default(KUMA_ATTACHMENT_HOST, True) }}
+            # AWS access keys for mdn-s3-api-(stage|prod)-uploader user:
+            - name: ATTACHMENTS_AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: aws-access-key
+            - name: ATTACHMENTS_AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: aws-secret-key
+            - name: ATTACHMENTS_AWS_STORAGE_BUCKET_NAME
+              value: "{{ KUMA_ATTACHMENTS_AWS_STORAGE_BUCKET_NAME }}"
+            - name: ATTACHMENTS_AWS_S3_REGION_NAME
+              value: "{{ KUMA_ATTACHMENTS_AWS_S3_REGION_NAME }}"
+            - name: ATTACHMENTS_AWS_S3_CUSTOM_DOMAIN
+              value: "{{ KUMA_ATTACHMENTS_AWS_S3_CUSTOM_DOMAIN }}"
+            - name: ATTACHMENTS_USE_S3
+              value: "{{ KUMA_ATTACHMENTS_USE_S3 }}"
+            # AWS access keys for mdn-s3-api-(stage|prod)-uploader user:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: aws-access-key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: aws-secret-key
+            - name: CELERY_BROKER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: redis-url
+            - name: CELERY_TASK_ALWAYS_EAGER
+              value: "{{ KUMA_CELERY_TASK_ALWAYS_EAGER }}"
+            - name: CELERY_RESULT_BACKEND
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: redis-url-1
+            - name: CELERY_WORKER_MAX_TASKS_PER_CHILD
+              value: "{{ KUMA_CELERY_WORKER_MAX_TASKS_PER_CHILD }}"
+            - name: CSP_ENABLE_MIDDLEWARE
+              value: "{{ KUMA_CSP_ENABLE_MIDDLEWARE }}"
+            - name: CSP_REPORT_ENABLE
+              value: "{{ KUMA_CSP_REPORT_ENABLE }}"
+            - name: CSP_REPORT_ONLY
+              value: "{{ KUMA_CSP_REPORT_ONLY }}"
+            - name: CSP_REPORT_URI
+              value: "{{ KUMA_CSP_REPORT_URI }}"
+            - name: CSRF_COOKIE_SECURE
+              value: "{{ KUMA_CSRF_COOKIE_SECURE }}"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: {% if KUMA_MAINTENANCE_MODE.lower() == "true" %}database-url-ro{% else %}database-url{% endif %}
+            - name: DEBUG
+              value: "{{ KUMA_DEBUG }}"
+            - name: DEBUG_TOOLBAR
+              value: "{{ KUMA_DEBUG_TOOLBAR }}"
+            - name: DEFAULT_FROM_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: default-from-email
+            - name: DOMAIN
+              value: {{ KUMA_DOMAIN }}
+            - name: EMAIL_BACKEND
+              value: {{ KUMA_EMAIL_BACKEND }}
+            - name: EMAIL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: email-url
+            - name: ENABLE_CANDIDATE_LANGUAGES
+              value: "{{ KUMA_ENABLE_CANDIDATE_LANGUAGES }}"
+            - name: ES_INDEX_PREFIX
+              value: {{ KUMA_ES_INDEX_PREFIX }}
+            - name: ES_LIVE_INDEX
+              value: "{{ KUMA_ES_LIVE_INDEX }}"
+            - name: ES_URLS
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: elasticsearch-url
+            - name: FOUNDATION_CALLOUT
+              value: "{{ KUMA_FOUNDATION_CALLOUT }}"
+            - name: GOOGLE_ANALYTICS_ACCOUNT
+              value: "{{ KUMA_GOOGLE_ANALYTICS_ACCOUNT }}"
+            - name: INTERACTIVE_EXAMPLES_BASE
+              value: "{{ INTERACTIVE_EXAMPLES_BASE_URL }}"
+            - name: KUMASCRIPT_URL_TEMPLATE
+              value: {{ KUMA_URL_TEMPLATE_FOR_KUMASCRIPT }}
+            - name: LEGACY_ROOT
+              value: "{{ KUMA_LEGACY_ROOT }}"
+            - name: MAINTENANCE_MODE
+              value: "{{ KUMA_MAINTENANCE_MODE }}"
+            - name: MDN_API_S3_BUCKET_NAME
+              value: "{{ KUMA_API_S3_BUCKET_NAME }}"
+            - name: MDN_API_CLOUDFRONT_DISTRIBUTIONID
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: aws-api-cloudfront-dist-id
+            - name: MDN_CONTRIBUTION
+              value: "{{ KUMA_ENABLE_CONTRIBUTIONS }}"
+            - name: MDN_CONTRIBUTION_CONFIRMATION_EMAIL
+              value: "{{ KUMA_ENABLE_CONTRIBUTIONS_CONFIRMATION_EMAIL }}"
+            - name: MEDIA_ROOT
+              value: {{ KUMA_MEDIA_ROOT }}
+            - name: MEDIA_URL
+              value: {{ KUMA_MEDIA_URL }}
+            - name: NEW_RELIC_APP_NAME
+              value: {{ NEW_RELIC_APP_NAME }}
+            - name: NEW_RELIC_BROWSER_MONITOR_ENABLE
+              value: "{{ NEW_RELIC_BROWSER_MONITOR_ENABLE }}"
+            - name: NEW_RELIC_CONFIG_FILE
+              value: {{ NEW_RELIC_CONFIG_FILE }}
+            - name: NEW_RELIC_MONITOR_MODE
+              value: "{{ NEW_RELIC_MONITOR_MODE }}"
+            - name: NEW_RELIC_LABELS
+              value: "{{ NEW_RELIC_LABELS }}"
+            - name: NEW_RELIC_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: newrelic-secrets
+                  key: NEW_RELIC_LICENSE_KEY
+            - name: NEW_RELIC_LOG
+              value: "{{ NEW_RELIC_LOG }}"
+            - name: PROTOCOL
+              value: {{ KUMA_PROTOCOL }}
+            - name: RATELIMIT_ENABLE
+              value: "{{ KUMA_RATELIMIT_ENABLE }}"
+            - name: REDIS_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: redis-base-url
+            - name: REDIS_CACHE_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: redis-url-2
+            - name: SECURE_HSTS_SECONDS
+              value: "{{ KUMA_SECURE_HSTS_SECONDS }}"
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: sentry-dsn
+            - name: SENTRY_ENVIRONMENT
+              value: "{{ K8S_CLUSTER_SHORT_NAME }}:{{ TARGET_ENVIRONMENT }}"
+            - name: SERVE_LEGACY
+              value: "{{ KUMA_SERVE_LEGACY }}"
+            - name: SERVER_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: server-email
+            - name: SESSION_COOKIE_SECURE
+              value: "{{ KUMA_SESSION_COOKIE_SECURE }}"
+            - name: SITE_URL
+              value: {{ KUMA_PROTOCOL }}{{ KUMA_DOMAIN }}
+            - name: SSR_TIMEOUT
+              value: "{{ KUMA_SSR_TIMEOUT }}"
+            - name: SSR_URL
+              value: "{{ KUMA_SSR_URL }}"
+            - name: STATIC_URL
+              value: {{ KUMA_STATIC_URL }}
+            - name: STRIPE_PLAN_ID
+              value: {{ KUMA_STRIPE_PLAN_ID }}
+            - name: STRIPE_PUBLIC_KEY
+              value: {{ KUMA_STRIPE_PUBLIC_KEY }}
+            - name: STRIPE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mdn-secrets
+                  key: stripe-secret-key
+            - name: WIKI_HOST
+              value: {{ KUMA_WIKI_HOST }}
+            # Other environment overrides
+            - name: PYTHONUNBUFFERED
+              value: "True"
+            - name: WEB_CONCURRENCY
+              value: "{{ KUMA_WEB_CONCURRENCY }}"
