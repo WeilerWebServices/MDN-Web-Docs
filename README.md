@@ -10,9 +10,7 @@ Data and tools related to ***MDN Web Docs*** (formerly Mozilla Developer Network
 
 ---
 
-# MDN Web Docs Glossary: Definitions of Web-related terms
-
-[MDN Web Docs Glossary: Definitions of Web-related terms](https://developer.mozilla.org/en-US/docs/Glossary)
+# [MDN Web Docs Glossary: Definitions of Web-related terms](https://developer.mozilla.org/en-US/docs/Glossary)
 
 Web technologies contain long lists of jargon and abbreviations that are used in documentation and coding. This glossary provides definitions of words and abbreviations you need to know to successfully understand and build for the web.
 
